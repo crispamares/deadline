@@ -1,0 +1,33 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+.clock {
+    font-size: 200pt;
+    text-align: center;
+}
+
+.controls {
+    transition: opacity 200ms;
+    background-color: #444;
+    color: #ccc;
+    opacity: 1;
+}
+
+.controls:hover {
+    opacity: 1;
+}
+
+.controls button {
+    background-color: black;
+    border-radius: 20px;
+    margin: 0 1em;
+}
+
+.controls input {
+    background-color: black;
+    margin: 0 0.5em;
+    width: 4em;
+    text-align: right;
+}

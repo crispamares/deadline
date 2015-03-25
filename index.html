@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>Deadline</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="container">
+      Esto NO está funcionado... usa otro navegador.
+    </div>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/react/react.js"></script>
+    <script src="lib/react/JSXTransformer.js"></script>
+
+    <script type="text/jsx" src="clock.jsx"></script>
+    <script type="text/jsx" src="chrono.jsx"></script>
+    <script type="text/jsx">
+    moment.locale('es');
+
+    var realCountdown = moment.duration(20, 'seconds').asMilliseconds();
+    var fakeCountdowm = moment.duration(1, 'days').asMilliseconds();
+
+    var realCountdownStep = 50;
+    var fakeCountdownStep = fakeCountdowm * realCountdownStep  / realCountdown;
+
+    var countdown = fakeCountdowm;
+    setInterval(function() {
+	countdown = countdown - fakeCountdownStep;
+        React.render(
+	    <Chrono countdown={countdown} />,
+	    document.getElementById('container')
+        );
+    }, realCountdownStep);
+    </script>
+  </body>
+</html>
