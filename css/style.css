@@ -8,11 +8,26 @@ body {
     text-align: center;
 }
 
+@keyframes blink {
+	0% {color: red;}
+	75% {color: black;}
+}
+
+@-webkit-keyframes blink {
+	0% {color: red;}
+	75% {color: black;}
+}
+
+.clock.hurry {
+    color: red;
+    animation: blink 1s step-end infinite;
+}
+
 .controls {
     transition: opacity 200ms;
     background-color: #444;
     color: #ccc;
-    opacity: 1;
+    opacity: 0.3;
 }
 
 .controls:hover {

@@ -3,7 +3,7 @@ var Clock = React.createClass({
 	    var countdown = moment.duration(this.props.countdown);
 	    countdown = (countdown < 0) ? 0 : countdown.humanize();
 	    return (
-	    <div className="clock">
+	    <div className={this.props.hurry ? 'clock hurry' : 'clock'}>
 		    <p>{countdown}</p>
 	    </div>);
     }

@@ -19,20 +19,8 @@
     <script type="text/jsx">
     moment.locale('es');
 
-    var realCountdown = moment.duration(20, 'seconds').asMilliseconds();
-    var fakeCountdowm = moment.duration(1, 'days').asMilliseconds();
+    React.render(<Chrono />, document.getElementById('container'));
 
-    var realCountdownStep = 50;
-    var fakeCountdownStep = fakeCountdowm * realCountdownStep  / realCountdown;
-
-    var countdown = fakeCountdowm;
-    setInterval(function() {
-	countdown = countdown - fakeCountdownStep;
-        React.render(
-	    <Chrono countdown={countdown} />,
-	    document.getElementById('container')
-        );
-    }, realCountdownStep);
     </script>
   </body>
 </html>
