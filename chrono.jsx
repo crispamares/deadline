@@ -11,7 +11,7 @@ var Chrono = React.createClass({
     },
     setClock: function() {
 	
-	var days = parseInt(React.findDOMNode(this.refs.fakeInput).value);
+	var days = parseFloat(React.findDOMNode(this.refs.fakeInput).value);
 	var minutes = parseInt(React.findDOMNode(this.refs.countdownInput).value);
 	var realSeconds = parseInt(React.findDOMNode(this.refs.countdownThreshold).value);
 
@@ -20,7 +20,7 @@ var Chrono = React.createClass({
 	var fakeCountdowm = moment.duration(days, 'days').asMilliseconds();
 
 	this.state.realCountdownStep = 50;
-	this.state.fakeCountdownStep = fakeCountdowm * this.state.realCountdownStep  / realCountdown;
+	this.state.fakeCountdownStep = fakeCountdowm * this.state.realCountdownStep / realCountdown;
 
 	this.state.countdown = fakeCountdowm;
 	this.state.threshold = threshold;
@@ -60,7 +60,7 @@ var Chrono = React.createClass({
 	    <div className="chrono">
 	      <Clock countdown={this.state.countdown} hurry={hurry}/>
 	      <div className="controls">
-		<input ref="fakeInput" type="number" defaultValue="7" min="0"/> 
+		<input ref="fakeInput" type="number" defaultValue="7" min="0" step="any"/> 
 		days. In
 		<input ref="countdownInput" type="number" defaultValue="20" min="0"/> 
 		minutes. The last 

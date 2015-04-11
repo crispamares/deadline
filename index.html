@@ -18,7 +18,9 @@
     <script type="text/jsx" src="chrono.jsx"></script>
     <script type="text/jsx">
     moment.locale('es');
-
+    moment.relativeTimeThreshold('s', 60);
+    moment.relativeTimeThreshold('m', 60);
+    moment.relativeTimeThreshold('h', 24);
     React.render(<Chrono />, document.getElementById('container'));
 
     </script>
