@@ -3,16 +3,21 @@ var Chrono = React.createClass({
     getInitialState: function() {
 	console.log("#####", this.props.countdown);
 	return {
-	    countdown: this.props.countdown || null,
+	    countdown: null,
 	    isRunning: false,
 	    realCountdownStep: 50,
-	    fakeCountdownStep: this.props.fakeCountdownStep || null,
-	    threshold: this.props.threshold || null,  
-	    intervalId: null
+	    fakeCountdownStep: null,
+	    threshold:  null,  
+	    intervalId: null,
+	    realCountdown: null,
+	    fakeCountdown: null
 	};
     },
 
     componentDidMount: function() {
+	if (this.props.realCountdown) {
+	    this.configureClock(this.props.realCountdown, this.props.fakeCountdown, this.props.threshold);
+	}
 	console.log("mounted:", this.state);
 	if (this.props.play) {
 	    this.play();
@@ -27,9 +32,7 @@ var Chrono = React.createClass({
     },
 
     componentWillUnmount: function() {
-
 	clearInterval(this.state.intervalId);
-
     },
 
     setClock: function() {
@@ -40,17 +43,27 @@ var Chrono = React.createClass({
 
 	var threshold = moment.duration(realSeconds, 'seconds').asMilliseconds();
 	var realCountdown = moment.duration(minutes, 'minutes').asMilliseconds();
-	var fakeCountdowm = moment.duration(days, 'days').asMilliseconds();
+	var fakeCountdown = moment.duration(days, 'days').asMilliseconds();
+
+	this.configureClock(realCountdown, fakeCountdown, threshold);
+	this.props.onSet && this.props.onSet(this.state);
+    },
+
+    configureClock: function (realCountdown, fakeCountdown, threshold) {
+	console.log("configureClock", realCountdown, fakeCountdown, threshold);
+
+	this.state.realCountdown = realCountdown;
+	this.state.fakeCountdown = fakeCountdown;
 
 	this.state.realCountdownStep = 50;
-	this.state.fakeCountdownStep = fakeCountdowm * this.state.realCountdownStep / realCountdown;
+	this.state.fakeCountdownStep = fakeCountdown * this.state.realCountdownStep / realCountdown;
 
-	this.state.countdown = (this.props.fake) ? fakeCountdowm : realCountdown;
+	this.state.countdown = (this.props.fake) ? fakeCountdown : realCountdown;
 	this.state.threshold = threshold;
 
 	this.setState(this.state);
-	this.props.onSet && this.props.onSet(this.state);
     },
+
     _inHurry: function() {
 	if (this.props.fake) {
 	    return ((this.state.countdown / this.state.fakeCountdownStep) * this.state.realCountdownStep)  
@@ -60,6 +73,7 @@ var Chrono = React.createClass({
 	    return this.state.countdown < this.state.threshold;
 	}
     },
+
     play: function () {
 	if (this.state.isRunning) {
 	    clearInterval(this.state.intervalId);
@@ -74,12 +88,15 @@ var Chrono = React.createClass({
 		    step =  50;
 		    self.state.countdown = Math.min(self.state.countdown, self.state.threshold);
 		}
+		self.state.realCountdown = self.state.realCountdown - self.realCountdownStep;
+		self.state.fakeCountdown = self.state.fakeCountdown - self.fakeCountdownStep;
 		self.state.countdown = self.state.countdown - step;
 		self.setState(self.state);
 	    }, this.state.realCountdownStep);
 	}
-	this.props.onPlay && this.props.onPlay(this.state);
 	this.setState(this.state);
+	this.props.onPlay && this.props.onPlay(this.state);
+
     },
     render: function() {
 	var playMsg = (this.state.isRunning) ? "Pause" : "Play";

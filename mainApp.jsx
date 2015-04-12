@@ -15,10 +15,10 @@ var App = React.createClass({
     },
 
     openWindow: function(state) {
-	console.log(this.otherWindow);
+	console.log("openWindow:", state);
 	if (this.otherWindow === null || this.otherWindow.closed) { 
 	    this.otherWindow = window.open(
-		"index.html#!/fake/"+state.countdown+"/"+state.threshold+"/"+state.fakeCountdownStep+"/"+state.isRunning,
+		"index.html#!/fake/"+state.realCountdown+"/"+state.fakeCountdown+"/"+state.threshold+"/"+state.isRunning,
 		"FakeClock",
 		"width=800,height=600,resizable,scrollbars=yes");
 	}
@@ -28,7 +28,7 @@ var App = React.createClass({
     setChrono: function(state) {
 	this.openWindow(state)
 	if (this.otherWindow !== null) { 
-	    this.otherWindow.window.location.assign("index.html#!/fake/"+state.countdown+"/"+state.threshold+"/"+state.fakeCountdownStep+"/"+ state.isRunning);
+	    this.otherWindow.window.location.assign("index.html#!/fake/"+state.realCountdown+"/"+state.fakeCountdown+"/"+state.threshold+"/"+state.isRunning);
 	    this.otherWindow.window.location.reload(false);
 	}
     },
@@ -44,7 +44,7 @@ var App = React.createClass({
 			fake={false}></Chrono>);
     },
 
-    fake: function(countdown, threshold, fakeCountdownStep, playing) {
+    fake: function(realCountdown, fakeCountdown, threshold, playing) {
 	
 	window.addEventListener("message", receiveMessage, false);
 
@@ -57,18 +57,20 @@ var App = React.createClass({
 		<Chrono 
 			humanize={true} 
 			play={state.isRunning}
-			countdown={state.countdown} 
+			fake={true}
+			realCountdown={state.realCountdown} 
 			threshold={state.threshold}
-			fakeCountdownStep={state.fakeCountdownStep}></Chrono>
+			fakeCountdown={state.fakeCountdown}></Chrono>
 		, document.getElementById('container'));
 	}
 
         return (<Chrono 
 			humanize={true} 
 			play={playing === "true"}
-			countdown={parseInt(countdown)} 
+			fake={true}
+			realCountdown={parseInt(realCountdown)} 
 			threshold={parseInt(threshold)}
-			fakeCountdownStep={parseInt(fakeCountdownStep)}></Chrono>);
+			fakeCountdown={parseInt(fakeCountdown)}></Chrono>);
     },
 
     notFound: function(path) {
