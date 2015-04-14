@@ -26,15 +26,18 @@ var App = React.createClass({
     },
 
     setChrono: function(state) {
-	this.openWindow(state)
 	if (this.otherWindow !== null) { 
 	    this.otherWindow.window.location.assign("index.html#!/fake/"+state.realCountdown+"/"+state.fakeCountdown+"/"+state.threshold+"/"+state.isRunning);
 	    this.otherWindow.window.location.reload(false);
+	}
+	else { 
+	    this.openWindow(state);
 	}
     },
 
     onPlay: function(state) {
 	if (this.otherWindow !== null) { 
+	    console.log("posting:", state);
 	    this.otherWindow.postMessage(state, "*");
 	}	
     },
@@ -45,12 +48,12 @@ var App = React.createClass({
     },
 
     fake: function(realCountdown, fakeCountdown, threshold, playing) {
-	
+	console.log("Fake!!!!!");
 	window.addEventListener("message", receiveMessage, false);
 
 	function receiveMessage(event)
 	{
-	    console.log(event.data);
+	    console.log("posted:", event.data);
 	    var state = event.data;
 
 	    React.render(

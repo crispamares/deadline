@@ -56,7 +56,7 @@ var Chrono = React.createClass({
 	this.state.fakeCountdown = fakeCountdown;
 
 	this.state.realCountdownStep = 50;
-	this.state.fakeCountdownStep = fakeCountdown * this.state.realCountdownStep / realCountdown;
+	this.state.fakeCountdownStep = ((fakeCountdown - threshold) * this.state.realCountdownStep) / (realCountdown - threshold);
 
 	this.state.countdown = (this.props.fake) ? fakeCountdown : realCountdown;
 	this.state.threshold = threshold;
@@ -65,19 +65,14 @@ var Chrono = React.createClass({
     },
 
     _inHurry: function() {
-	if (this.props.fake) {
-	    return ((this.state.countdown / this.state.fakeCountdownStep) * this.state.realCountdownStep)  
-	        < this.state.threshold;
-	}
-	else {
-	    return this.state.countdown < this.state.threshold;
-	}
+	return this.state.countdown < this.state.threshold;
     },
 
     play: function () {
 	if (this.state.isRunning) {
 	    clearInterval(this.state.intervalId);
 	    this.state.isRunning = false;
+	    console.log("Pausing:", this.state);
 	}
 	else { 
 	    var self = this;
@@ -88,15 +83,15 @@ var Chrono = React.createClass({
 		    step =  50;
 		    self.state.countdown = Math.min(self.state.countdown, self.state.threshold);
 		}
-		self.state.realCountdown = self.state.realCountdown - self.realCountdownStep;
-		self.state.fakeCountdown = self.state.fakeCountdown - self.fakeCountdownStep;
+		self.state.realCountdown = self.state.realCountdown - self.state.realCountdownStep;
+		self.state.fakeCountdown = self.state.fakeCountdown - self.state.fakeCountdownStep;
 		self.state.countdown = self.state.countdown - step;
 		self.setState(self.state);
 	    }, this.state.realCountdownStep);
 	}
-	this.setState(this.state);
 	this.props.onPlay && this.props.onPlay(this.state);
-
+	this.setState(this.state);
+	
     },
     render: function() {
 	var playMsg = (this.state.isRunning) ? "Pause" : "Play";
