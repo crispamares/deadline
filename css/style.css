@@ -1,3 +1,27 @@
+.controls {
+    transition: opacity 200ms;
+    background-color: #444;
+    color: #ccc;
+    opacity: 0.3;  /* Baja esto para que la barra se vea menos. De 0 a 1.*/  
+}
+
+.controls:hover {
+    opacity: 1;
+}
+
+.controls button {
+    background-color: black;
+    border-radius: 20px;
+    margin: 0 1em;
+}
+
+.controls input {
+    background-color: black;
+    margin: 0 0.5em;
+    width: 4em;
+    text-align: right;
+}
+
 body {
     background-color: black;
     color: white;
@@ -23,26 +47,3 @@ body {
     animation: blink 1s step-end infinite;
 }
 
-.controls {
-    transition: opacity 200ms;
-    background-color: #444;
-    color: #ccc;
-    opacity: 0.3;
-}
-
-.controls:hover {
-    opacity: 1;
-}
-
-.controls button {
-    background-color: black;
-    border-radius: 20px;
-    margin: 0 1em;
-}
-
-.controls input {
-    background-color: black;
-    margin: 0 0.5em;
-    width: 4em;
-    text-align: right;
-}

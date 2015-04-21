@@ -12,14 +12,18 @@
     </div>
     <script src="lib/moment.min.js"></script>
     <script src="lib/react/react.js"></script>
+    <script src="lib/react-mini-router.js"></script>
     <script src="lib/react/JSXTransformer.js"></script>
 
+    <script type="text/jsx" src="mainApp.jsx"></script>
     <script type="text/jsx" src="clock.jsx"></script>
     <script type="text/jsx" src="chrono.jsx"></script>
     <script type="text/jsx">
     moment.locale('es');
-
-    React.render(<Chrono />, document.getElementById('container'));
+    moment.relativeTimeThreshold('s', 60);
+    moment.relativeTimeThreshold('m', 60);
+    moment.relativeTimeThreshold('h', 24);
+    React.render(<App />, document.getElementById('container'));
 
     </script>
   </body>
